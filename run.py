@@ -20,7 +20,11 @@ from bs4 import BeautifulSoup as soup
 if not os.path.exists(datefolder):
     os.makedirs(datefolder)
 
-def list_of_stocks():
+list_of_stocks = []
+
+def get_sp500():
+    global list_of_stocks
+    print('Gathering up-to-date list of S&P500 stock tickers...')
     wikiurl = requests.get('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     scrape = soup(wikiurl.text, "lxml")
     table = scrape.find('table', {'class':'wikitable sortable'})
@@ -30,9 +34,12 @@ def list_of_stocks():
         stocks.append(stock)
     
     stocks = list(map(lambda s: s.strip(), stocks))
-    return stocks
+    print('Stocks successfully acquired')
+    for x in stocks:
+        list_of_stocks.append(x)
 
-def savePrice(arg):
+def savePrices(arg):
+    print('Downloading two years of stock history for the company ' + arg + '...')
     ticker = arg
     koyfin_url = 'https://api.koyfin.com/api/v2/commands/g/g.eq/%s?dateFrom=%s-%s-%s&dateTo=%s-%s-%s&period=daily'%(ticker,otheryear,thismonth,thisday,thisyear,thismonth,thisday)
     r = requests.get(koyfin_url)
@@ -45,6 +52,7 @@ def savePrice(arg):
         iterable.append(stup)
 
     if os.path.basename(os.getcwd()) != datefolder:
+        print('Creating a new folder for today\'s ranking...')
         os.chdir(os.getcwd()+"\\"+datefolder)
     else:
         pass
@@ -56,9 +64,13 @@ def savePrice(arg):
     f.close
 
 def main():
-    for stock in list_of_stocks():
-        savePrice(stock)
+    get_sp500()
+    for stock in list_of_stocks:
+        savePrices(stock)
         excelmanip.load_series(stock)
-        excelmanip.transfer(list_of_stocks().index(stock),stock)
+        excelmanip.transfer(list_of_stocks.index(stock),stock)
+
+    print(list_of_stocks)
+    finish = input()
 
 main()

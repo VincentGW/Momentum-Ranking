@@ -19,7 +19,8 @@ if len(thisday) == 1:
 datefolder = "%s-%s-%s"%(thisyear,thismonth,thisday)
 
 excel_file = xw.Book('MomentumCalc.xlsx')
-excel_file_dos = xw.Book('MomentumRank.xlsx')
+excel_file_dos = xw.Book('MomentumRank.xlsm')
+sort_macro = excel_file_dos.macro('Sort')
 f_calc = excel_file.sheets['MomentumCalc']
 f_rank = excel_file_dos.sheets['MomentumRank']
 
@@ -37,6 +38,7 @@ def chuck_csv_data(arg):
     data = arg
     for x in data:
         myrange = 'C'+str((data.index(x)+1))
+        print('Copying data point no. '+ str(data.index(x)+1) +' to MomentumCalc.xlsx in Excel...', end='\r')
         f_calc.range(myrange).value = x
 
 def transfer(num, ticker):
@@ -52,6 +54,7 @@ def transfer(num, ticker):
     f_rank.range(r90loc).value = adjslope90
     f_rank.range(r125loc).value = adjslope125
     f_rank.range(r250loc).value = adjslope250
+    sort_macro()
 
 def load_series(stock):
     chuck_csv_data(manifest_pricelist(stock))
