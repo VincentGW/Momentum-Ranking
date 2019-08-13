@@ -8,7 +8,6 @@
 #    securities trading, it is recommended you read Andreas Clenow's book: "Stocks on the Move" (2015)
 
 import os
-import sys
 import json
 import csv
 import requests
