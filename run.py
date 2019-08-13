@@ -69,7 +69,4 @@ def main():
         excelmanip.load_series(stock)
         excelmanip.transfer(list_of_stocks.index(stock),stock)
 
-    print(list_of_stocks)
-    finish = input()
-
 main()
