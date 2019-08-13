@@ -5,7 +5,7 @@
 #    Libraries used include xlwings for handling the excel templates in which analysis is done
 #    and BeautifulSoup for handling requests sent out to retrieve stock data
 #    To learn more about the concept behind the Momentum Ranking technique and how it can aid in
-#    securities trading, you should read Andreas Clenow's book: "Stocks on the Move" (2015)
+#    securities trading, it is recommended you read Andreas Clenow's book: "Stocks on the Move" (2015)
 
 import os
 import sys
