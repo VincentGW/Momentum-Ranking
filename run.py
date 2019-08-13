@@ -17,6 +17,7 @@ from excelmanip import datefolder, thismonth, thisday, thisyear, otheryear
 from bs4 import BeautifulSoup as soup
 
 if not os.path.exists(datefolder):
+    print('Creating a new folder for today\'s ranking...')
     os.makedirs(datefolder)
 
 list_of_stocks = []
@@ -51,7 +52,6 @@ def savePrices(arg):
         iterable.append(stup)
 
     if os.path.basename(os.getcwd()) != datefolder:
-        print('Creating a new folder for today\'s ranking...')
         os.chdir(os.getcwd()+"\\"+datefolder)
     else:
         pass
